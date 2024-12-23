@@ -48,15 +48,14 @@ jobs:
         with:
           name: app-package
 
-      - name: Set up Azure CLI
-        uses: azure/cli@v2
-        with:
-          inlineScript:
-            |
-            az webapp deploy --name app-production-westeurope --resource-group rg-production --src-path app.zip --type zip
       - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID_STAGING }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy to azure production
+        run: |
+          az webapp deploy --name app-production-westeurope --resource-group rg-production --src-path app.zip --type zip
+
+          
